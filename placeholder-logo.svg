@@ -1,0 +1,63 @@
+"use client"
+
+import { createContext, useContext, useState, ReactNode } from 'react'
+
+export type UserRole = 'elderly' | 'guardian' | 'doctor' | null
+export type Screen = 
+  | 'splash'
+  | 'onboarding'
+  | 'login'
+  | 'signup'
+  | 'dashboard'
+  | 'medications'
+  | 'medication-detail'
+  | 'dispenser'
+  | 'health'
+  | 'emergency'
+  | 'sos'
+  | 'guardian-panel'
+  | 'insights'
+  | 'profile'
+
+interface AppContextType {
+  currentScreen: Screen
+  setCurrentScreen: (screen: Screen) => void
+  userRole: UserRole
+  setUserRole: (role: UserRole) => void
+  isLoggedIn: boolean
+  setIsLoggedIn: (value: boolean) => void
+  userName: string
+  setUserName: (name: string) => void
+}
+
+const AppContext = createContext<AppContextType | undefined>(undefined)
+
+export function AppProvider({ children }: { children: ReactNode }) {
+  const [currentScreen, setCurrentScreen] = useState<Screen>('splash')
+  const [userRole, setUserRole] = useState<UserRole>(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userName, setUserName] = useState('Margaret')
+
+  return (
+    <AppContext.Provider value={{
+      currentScreen,
+      setCurrentScreen,
+      userRole,
+      setUserRole,
+      isLoggedIn,
+      setIsLoggedIn,
+      userName,
+      setUserName,
+    }}>
+      {children}
+    </AppContext.Provider>
+  )
+}
+
+export function useApp() {
+  const context = useContext(AppContext)
+  if (context === undefined) {
+    throw new Error('useApp must be used within an AppProvider')
+  }
+  return context
+}
