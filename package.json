@@ -1,0 +1,12 @@
+import { AppProvider } from '@/lib/app-context'
+import { PulseMateApp } from '@/components/pulsemate/PulseMateApp'
+
+const Index = () => {
+  return (
+    <AppProvider>
+      <PulseMateApp />
+    </AppProvider>
+  )
+}
+
+export default Index
